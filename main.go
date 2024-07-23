@@ -3,6 +3,7 @@ package main
 import (
 	"golang-jwt/controllers"
 	"golang-jwt/initializers"
+	"golang-jwt/middleware"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -17,6 +18,10 @@ func init() {
 func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+
+	r.POST("/signup", controllers.Signup)
+	r.POST("/login", controllers.Login)
+	r.GET("/validate", middleware.RequireAuth, controllers.Validate)
 
 	r.GET("/employees", controllers.GetEmployees)
 	r.GET("/employee/:id", controllers.GetEmployeeById)
